@@ -1,0 +1,26 @@
+{
+  "name": "travellersparadise",
+  "version": "1.0.0",
+  "description": "Nodejs Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riteshnath88/travellersParadise-nodejsProject.git"
+  },
+  "author": "Ritesh Nath",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/riteshnath88/travellersParadise-nodejsProject/issues"
+  },
+  "homepage": "https://github.com/riteshnath88/travellersParadise-nodejsProject#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
