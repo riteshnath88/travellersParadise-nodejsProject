@@ -8,7 +8,7 @@ const tourSchema = new mongoose.Schema({
   },
   duration: {
     type: Number,
-    required: [true, "A tour must have a duration"],
+    required: [true, "A tour must .have a duration"],
   },
   maxGroupSize: {
     type: Number,
@@ -25,6 +25,10 @@ const tourSchema = new mongoose.Schema({
   ratingsQuantity: {
     type: Number,
     default: 0,
+  },
+  price: {
+    type: Number,
+    required: [true, "A tour must have a price"],
   },
   priceDiscount: Number,
   summary: {
