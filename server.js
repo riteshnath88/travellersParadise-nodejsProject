@@ -8,7 +8,9 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-mongoose.connect(DB).then(() => console.log("Connected!"));
+mongoose
+  .connect(DB)
+  .then(() => console.log("Connected to MongoAtlas remote DB!"));
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
