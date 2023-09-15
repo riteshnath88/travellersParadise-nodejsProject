@@ -1,6 +1,13 @@
 const fs = require("fs");
 const Tour = require("../models/tourModel");
 
+exports.aliasTopTours = async (req, res, next) => {
+  req.query.limit = 5;
+  req.query.sort = "-ratingsAverage, price";
+  req.query.fields = "name,price,ratingsAverage,summary,difficulty";
+  next();
+};
+
 exports.getAllTours = async (req, res) => {
   try {
     const queryObj = { ...req.query };
@@ -28,6 +35,13 @@ exports.getAllTours = async (req, res) => {
     } else {
       query = query.select("-__v");
     }
+
+    // PAGINATION
+
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 1;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
 
     // EXECUTE QUERY
     const tours = await query;
