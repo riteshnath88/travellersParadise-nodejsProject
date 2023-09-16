@@ -1,5 +1,6 @@
 const fs = require("fs");
 const Tour = require("../models/tourModel");
+const APIFeatures = require("./../utils/apiFeatures");
 
 exports.aliasTopTours = async (req, res, next) => {
   req.query.limit = 5;
@@ -10,6 +11,7 @@ exports.aliasTopTours = async (req, res, next) => {
 
 exports.getAllTours = async (req, res) => {
   try {
+    /*
     const queryObj = { ...req.query };
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach((el) => delete queryObj[el]);
@@ -42,9 +44,15 @@ exports.getAllTours = async (req, res) => {
     const limit = req.query.limit * 1 || 1;
     const skip = (page - 1) * limit;
     query = query.skip(skip).limit(limit);
+    */
 
     // EXECUTE QUERY
-    const tours = await query;
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const tours = await features.query;
 
     res.status(200).json({
       results: tours.length,
@@ -65,7 +73,7 @@ exports.getTour = async (req, res) => {
     });
   } catch (err) {
     res.status(404).json({
-      tour,
+      message: err,
     });
   }
 };
@@ -108,6 +116,39 @@ exports.deleteTour = async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({
+      message: err,
+    });
+  }
+};
+
+exports.getTourStats = async (req, res) => {
+  try {
+    const stats = await Tour.aggregate([
+      {
+        $match: { ratingsAverage: { $gte: 4.5 } },
+      },
+      {
+        $group: {
+          _id: { $toUpper: "$difficulty" },
+          numTours: { $sum: 1 },
+          avgRating: { $avg: "$ratingsAverage" },
+          avgPrice: { $avg: "$price" },
+          minPrice: { $min: "$price" },
+          maxPrice: { $max: "$price" },
+        },
+      },
+      {
+        $sort: { avgPrice: 1 },
+      },
+    ]);
+    res.status(200).json({
+      status: "success",
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
       message: err,
     });
   }
