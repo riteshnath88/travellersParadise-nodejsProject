@@ -40,6 +40,11 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
 });
 
 userSchema.pre("save", async function (next) {
@@ -63,6 +68,11 @@ userSchema.pre("save", function (next) {
   // If password is modified and this is not a new entry, we set the passwordChnagedAt field to current time - 1s so that the
   // user can login with the new token because sometimes the persiting time of date value may be 1 or 2 s ahead of current time.
   this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+userSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
   next();
 });
 
