@@ -13,7 +13,12 @@ const xss = require("xss-clean");
 //MIDDLEWARES
 
 const app = express();
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
 app.use(mongoSanitize());
 app.use(xss());
 
