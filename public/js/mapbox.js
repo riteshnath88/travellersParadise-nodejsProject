@@ -11,7 +11,7 @@ var map = new mapboxgl.Map({
 
 const bounds = new mapboxgl.LngLatBounds();
 
-locs.forEach((loc) => {
+locations.forEach((loc) => {
   // Create marker
   const el = document.createElement("div");
   el.className = "marker";
