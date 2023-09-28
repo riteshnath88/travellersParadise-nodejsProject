@@ -1,8 +1,10 @@
 const express = require("express");
-const router = express.Router();
-
+const multer = require("multer");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
+
+const router = express.Router();
+const upload = multer({ dest: "public/img/users" });
 
 router.route("/signup").post(authController.signUp);
 router.route("/login").post(authController.login);
