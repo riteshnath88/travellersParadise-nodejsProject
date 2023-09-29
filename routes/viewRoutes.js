@@ -16,5 +16,11 @@ router.get(
 );
 router.get("/login", authController.isLoggedIn, viewController.getLoginForm);
 router.get("/logout", viewController.logOut);
+router.get(
+  "/useraccount",
+  authController.isLoggedIn,
+  authController.protect,
+  viewController.useraccount
+);
 
 module.exports = router;

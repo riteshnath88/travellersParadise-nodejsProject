@@ -39,3 +39,9 @@ exports.logOut = catchAsync(async (req, res, next) => {
     res.redirect("/"); // Replace '/login' with the actual URL of your login page
   }, 500); // 1000 milliseconds = 1 second
 });
+
+exports.useraccount = catchAsync(async (req, res, next) => {
+  res.status(200).render("userAccount", {
+    title: "Log into your account",
+  });
+});
