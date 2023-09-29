@@ -12,7 +12,7 @@ const login = async (email, password) => {
       alert("Logged in successfully");
       window.setTimeout(() => {
         location.assign("/");
-      }, 1500);
+      }, 500);
     }
   } catch (err) {
     alert(err.response.data.message);

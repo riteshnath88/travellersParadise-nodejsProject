@@ -32,3 +32,10 @@ exports.getLoginForm = catchAsync(async (req, res, next) => {
     title: "Log into your account",
   });
 });
+
+exports.logOut = catchAsync(async (req, res, next) => {
+  res.clearCookie("jwt"); // Clear the cookie by setting it to expire immediately
+  setTimeout(() => {
+    res.redirect("/"); // Replace '/login' with the actual URL of your login page
+  }, 500); // 1000 milliseconds = 1 second
+});
